@@ -140,10 +140,11 @@ export const projects: Project[] = [
     name: 'Aurora',
     tagline: 'Промо-лендинг уровня Awwwards',
     description:
-      'Посадочная страница гаджета: 3D-модель вращается при скролле, кинематографичные анимации и плавная прокрутка.',
-    tech: ['Three.js', 'GSAP', 'ScrollTrigger', 'Lenis'],
+      'Концепт-лендинг вымышленной умной колонки. 3D-модель целиком построена кодом: ткань с процедурной текстурой, светящееся кольцо на GLSL. Прокрутка поворачивает колонку, разбирает её на детали с выносками и включает свет. Есть версии для reduced motion и браузеров без WebGL.',
+    tech: ['Three.js', 'GLSL', 'GSAP', 'ScrollTrigger', 'Lenis', 'TypeScript'],
     year: 2026,
-    status: 'wip',
+    repo: 'https://github.com/Qwertyzxas/aurora',
+    demo: 'https://qwertyzxas.github.io/aurora/',
     planet: {
       type: 'gas',
       color: '#e8c08a',
