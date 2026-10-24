@@ -99,10 +99,11 @@ export const projects: Project[] = [
     name: 'Orbit Tasks',
     tagline: 'Таск-менеджер в стиле Linear',
     description:
-      'Канбан-доска с drag & drop, офлайн-режимом (PWA + IndexedDB), отменой действий, палитрой команд по Ctrl+K и полным управлением с клавиатуры.',
-    tech: ['TypeScript', 'React', 'IndexedDB', 'PWA', 'Vitest', 'Playwright'],
+      'Канбан-доска, которой можно управлять целиком с клавиатуры: drag & drop мышью и стрелками, палитра команд по Ctrl+K, отмена любого действия, работа офлайн (PWA + IndexedDB) и синхронизация вкладок. Покрыт юнит-, интеграционными и e2e-тестами, проверен axe на доступность.',
+    tech: ['TypeScript', 'React 19', 'dnd-kit', 'IndexedDB', 'PWA', 'Vitest', 'Playwright'],
     year: 2026,
-    status: 'wip',
+    repo: 'https://github.com/Qwertyzxas/orbit-tasks',
+    demo: 'https://qwertyzxas.github.io/orbit-tasks/',
     planet: {
       type: 'rocky',
       color: '#5fae6a',
