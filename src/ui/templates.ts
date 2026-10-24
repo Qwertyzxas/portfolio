@@ -11,6 +11,7 @@ const chips = (items: string[]) => `<ul class="chips">${items.map((t) => `<li>${
 export function projectView(project: Project, index: number) {
   const prev = projects[(index - 1 + projects.length) % projects.length];
   const next = projects[(index + 1) % projects.length];
+  const wip = project.status === 'wip';
   const actions = [
     project.demo &&
       `<a class="btn btn--primary" href="${escape(project.demo)}" target="_blank" rel="noopener">Открыть демо ${icons.external}</a>`,
@@ -21,13 +22,20 @@ export function projectView(project: Project, index: number) {
     .join('');
 
   return `
-    <p class="panel__eyebrow"><span>Планета ${pad(index + 1)} / ${pad(projects.length)}</span><span>${project.year}</span></p>
+    <p class="panel__eyebrow">
+      <span>Планета ${pad(index + 1)} / ${pad(projects.length)}</span>
+      ${wip ? '<span class="badge">В разработке</span>' : `<span>${project.year}</span>`}
+    </p>
     <h2 class="panel__title">${escape(project.name)}</h2>
     <p class="panel__tagline">${escape(project.tagline)}</p>
     <p class="panel__text">${escape(project.description)}</p>
-    <h3 class="panel__label">Стек</h3>
+    <h3 class="panel__label">${wip ? 'Планируемый стек' : 'Стек'}</h3>
     ${chips(project.tech)}
-    ${actions ? `<div class="panel__actions">${actions}</div>` : ''}
+    ${
+      wip
+        ? '<p class="panel__note">Планета ещё формируется: демо и исходный код появятся здесь, как только проект будет готов.</p>'
+        : actions && `<div class="panel__actions">${actions}</div>`
+    }
     <nav class="pager" aria-label="Другие проекты">
       <button type="button" class="pager__btn" data-step="-1">
         <small>Предыдущий</small><span>${escape(prev.name)}</span>
@@ -88,7 +96,7 @@ export function projectsMenu() {
         <button type="button" class="menu-item" data-project="${escape(p.id)}" style="--accent:${escape(p.planet.atmosphere)}">
           <span class="menu-item__dot"></span>
           <span class="menu-item__text"><strong>${escape(p.name)}</strong><small>${escape(p.tagline)}</small></span>
-          <span class="menu-item__num">${pad(i + 1)}</span>
+          <span class="menu-item__num">${p.status === 'wip' ? 'скоро' : pad(i + 1)}</span>
         </button>
       </li>`,
     )

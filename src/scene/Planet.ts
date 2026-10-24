@@ -146,7 +146,7 @@ export class Planet {
     // HTML label floating above the planet
     const element = document.createElement('button');
     element.type = 'button';
-    element.className = 'planet-label';
+    element.className = project.status === 'wip' ? 'planet-label planet-label--wip' : 'planet-label';
     element.style.setProperty('--accent', planet.atmosphere);
     element.innerHTML = `<span class="planet-label__dot"></span><span class="planet-label__text"></span>`;
     element.querySelector('.planet-label__text')!.textContent = project.name;

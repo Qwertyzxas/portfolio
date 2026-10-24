@@ -13,6 +13,8 @@ export interface Project {
   description: string;
   tech: string[];
   year: number;
+  /** 'wip' — проект в разработке: без ссылок, с пометкой «скоро». По умолчанию 'live' */
+  status?: 'live' | 'wip';
   repo?: string;
   demo?: string;
   planet: {
@@ -65,42 +67,42 @@ export const profile: Profile = {
   ],
   contacts: [
     { kind: 'github', label: 'GitHub', url: 'https://github.com/Qwertyzxas' },
-    { kind: 'telegram', label: 'Telegram', url: 'https://t.me/username' },
-    { kind: 'email', label: 'Email', url: 'mailto:hello@example.com' },
-    { kind: 'linkedin', label: 'LinkedIn', url: 'https://linkedin.com/in/username' },
+    { kind: 'telegram', label: 'Telegram', url: 'https://t.me/legeng163' },
+    { kind: 'email', label: 'Email', url: 'mailto:vojtenkotimur88@gmail.com' },
   ],
 };
 
 export const projects: Project[] = [
   {
-    id: 'nebula-ui',
-    name: 'Nebula UI',
-    tagline: 'Библиотека компонентов с космической анимацией',
+    id: 'space-portfolio',
+    name: 'Space Portfolio',
+    tagline: 'Интерактивное 3D-портфолио, которое вы сейчас смотрите',
     description:
-      'Набор из 40+ доступных React-компонентов с продуманными микровзаимодействиями. Темизация через CSS-переменные, tree-shaking, документация в Storybook.',
-    tech: ['React', 'TypeScript', 'Storybook', 'CSS'],
+      'Солнечная система на Three.js, где каждая планета — проект. Процедурные планеты на GLSL-шейдерах, кольца с тенями, bloom-свечение, кинематографичные пролёты камеры, адаптив под телефоны и облегчённый режим для слабых устройств.',
+    tech: ['TypeScript', 'Three.js', 'GLSL', 'Vite', 'GitHub Actions'],
     year: 2026,
-    repo: 'https://github.com/username/nebula-ui',
-    demo: 'https://username.github.io/nebula-ui',
+    repo: 'https://github.com/Qwertyzxas/portfolio',
+    demo: 'https://qwertyzxas.github.io/portfolio/',
     planet: {
-      type: 'ice',
-      color: '#7fd6ff',
-      accent: '#2a5d9c',
-      atmosphere: '#8ad8ff',
-      size: 2.2,
+      type: 'gas',
+      color: '#7b6cff',
+      accent: '#2c2370',
+      atmosphere: '#a29bff',
+      size: 2.6,
       orbit: 22,
-      speed: 1.4,
+      speed: 1.3,
+      moons: 1,
     },
   },
   {
-    id: 'terra-tasks',
-    name: 'Terra Tasks',
-    tagline: 'Канбан-доска с реалтайм-синхронизацией',
+    id: 'orbit-tasks',
+    name: 'Orbit Tasks',
+    tagline: 'Таск-менеджер в стиле Linear',
     description:
-      'Командный таск-трекер: drag & drop, совместное редактирование через WebSocket, офлайн-режим и синхронизация после восстановления сети.',
-    tech: ['Vue', 'Node.js', 'WebSocket', 'PostgreSQL'],
-    year: 2025,
-    repo: 'https://github.com/username/terra-tasks',
+      'Канбан-доска с drag & drop, офлайн-режимом (PWA + IndexedDB), отменой действий, палитрой команд по Ctrl+K и полным управлением с клавиатуры.',
+    tech: ['TypeScript', 'React', 'IndexedDB', 'PWA', 'Vitest', 'Playwright'],
+    year: 2026,
+    status: 'wip',
     planet: {
       type: 'rocky',
       color: '#5fae6a',
@@ -113,15 +115,14 @@ export const projects: Project[] = [
     },
   },
   {
-    id: 'magma-analytics',
-    name: 'Magma Analytics',
-    tagline: 'Дашборд метрик в реальном времени',
+    id: 'pulse',
+    name: 'Pulse',
+    tagline: 'Крипто-дашборд в реальном времени',
     description:
-      'Визуализация миллионов событий в секунду: WebGL-графики, стриминг данных и фильтры без задержек. Отрисовка 60 FPS даже на слабых ноутбуках.',
-    tech: ['TypeScript', 'WebGL', 'D3', 'Web Workers'],
-    year: 2025,
-    repo: 'https://github.com/username/magma-analytics',
-    demo: 'https://username.github.io/magma-analytics',
+      'Живые котировки через WebSocket, свечные графики на Canvas и таблица на тысячи строк без лагов. Тяжёлые вычисления вынесены в Web Workers.',
+    tech: ['TypeScript', 'WebSocket', 'Canvas', 'Web Workers'],
+    year: 2026,
+    status: 'wip',
     planet: {
       type: 'lava',
       color: '#ff6a1f',
@@ -133,15 +134,14 @@ export const projects: Project[] = [
     },
   },
   {
-    id: 'saturn-shop',
-    name: 'Saturn Shop',
-    tagline: 'Интернет-магазин с 3D-примеркой товаров',
+    id: 'aurora',
+    name: 'Aurora',
+    tagline: 'Промо-лендинг уровня Awwwards',
     description:
-      'E-commerce с интерактивным просмотром товаров в 3D, корзиной, оплатой и админкой. Lighthouse 98+ благодаря SSR и ленивой загрузке моделей.',
-    tech: ['Next.js', 'Three.js', 'Stripe', 'Prisma'],
-    year: 2024,
-    repo: 'https://github.com/username/saturn-shop',
-    demo: 'https://saturn-shop.example.com',
+      'Посадочная страница гаджета: 3D-модель вращается при скролле, кинематографичные анимации и плавная прокрутка.',
+    tech: ['Three.js', 'GSAP', 'ScrollTrigger', 'Lenis'],
+    year: 2026,
+    status: 'wip',
     planet: {
       type: 'gas',
       color: '#e8c08a',
@@ -154,20 +154,20 @@ export const projects: Project[] = [
     },
   },
   {
-    id: 'void-chat',
-    name: 'Void Chat',
-    tagline: 'Мессенджер со сквозным шифрованием',
+    id: 'nova-ui',
+    name: 'Nova UI',
+    tagline: 'Дизайн-система и библиотека компонентов',
     description:
-      'Чат с E2E-шифрованием на Web Crypto API, голосовыми сообщениями и PWA-установкой. Работает без сервера хранения сообщений.',
-    tech: ['TypeScript', 'WebRTC', 'Web Crypto', 'PWA'],
-    year: 2024,
-    repo: 'https://github.com/username/void-chat',
+      'Доступные компоненты с темами, документацией в Storybook, тестами и публикацией в npm.',
+    tech: ['TypeScript', 'React', 'Storybook', 'npm'],
+    year: 2026,
+    status: 'wip',
     planet: {
-      type: 'gas',
-      color: '#7b6cff',
-      accent: '#2c2370',
-      atmosphere: '#a29bff',
-      size: 3.4,
+      type: 'ice',
+      color: '#7fd6ff',
+      accent: '#2a5d9c',
+      atmosphere: '#8ad8ff',
+      size: 2.8,
       orbit: 84,
       speed: 0.4,
       moons: 2,
