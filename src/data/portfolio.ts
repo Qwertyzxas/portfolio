@@ -161,10 +161,11 @@ export const projects: Project[] = [
     name: 'Nova UI',
     tagline: 'Дизайн-система и библиотека компонентов',
     description:
-      'Доступные компоненты с темами, документацией в Storybook, тестами и публикацией в npm.',
-    tech: ['TypeScript', 'React', 'Storybook', 'npm'],
+      '14 React-компонентов по WAI-ARIA: Select с поиском по буквам, вкладки, диалог, подсказки, уведомления. Светлая и тёмная темы строятся из одного источника токенов, контраст цветов проверяется тестами. Каждая история Storybook проверяется axe в реальном браузере. Пакет готов к публикации в npm.',
+    tech: ['React 19', 'TypeScript', 'Storybook', 'Vitest', 'Playwright', 'axe-core'],
     year: 2026,
-    status: 'wip',
+    repo: 'https://github.com/Qwertyzxas/nova-ui',
+    demo: 'https://qwertyzxas.github.io/nova-ui/',
     planet: {
       type: 'ice',
       color: '#7fd6ff',
