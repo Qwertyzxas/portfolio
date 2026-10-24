@@ -120,10 +120,11 @@ export const projects: Project[] = [
     name: 'Pulse',
     tagline: 'Крипто-дашборд в реальном времени',
     description:
-      'Живые котировки через WebSocket, свечные графики на Canvas и таблица на тысячи строк без лагов. Тяжёлые вычисления вынесены в Web Workers.',
-    tech: ['TypeScript', 'WebSocket', 'Canvas', 'Web Workers'],
+      'Живые котировки ~680 пар Binance по WebSocket, собственный свечной график на Canvas без библиотек (зум, перекрестие, MA/EMA), стакан и лента сделок. Сеть и разбор данных работают в Web Worker, при недоступности биржи — автоматический переход на симулятор рынка.',
+    tech: ['TypeScript', 'Vue 3', 'Canvas', 'WebSocket', 'Web Workers', 'Playwright'],
     year: 2026,
-    status: 'wip',
+    repo: 'https://github.com/Qwertyzxas/pulse',
+    demo: 'https://qwertyzxas.github.io/pulse/',
     planet: {
       type: 'lava',
       color: '#ff6a1f',
