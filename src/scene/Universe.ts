@@ -65,6 +65,7 @@ export class Universe {
   private readonly belt: AsteroidBelt;
 
   private flight: Flight | null = null;
+  private introDone: (() => void) | null = null;
   private following: Planet | null = null;
   private readonly followLast = new Vector3();
   private hovered: Planet | Sun | null = null;
@@ -138,6 +139,10 @@ export class Universe {
   start(onIntroDone?: () => void) {
     this.camera.lookAt(0, 0, 0);
     this.renderer.setAnimationLoop(this.tick);
+    this.introDone = () => {
+      this.introDone = null;
+      onIntroDone?.();
+    };
     this.flyTo(
       (pos, target) => {
         pos.copy(HOME);
@@ -146,7 +151,7 @@ export class Universe {
       this.options.reducedMotion ? 0.01 : 3.6,
       () => {
         this.controls.autoRotate = true;
-        onIntroDone?.();
+        this.introDone?.();
       },
     );
   }
@@ -243,6 +248,8 @@ export class Universe {
   }
 
   private flyTo(destination: Flight['destination'], duration: number, onDone?: () => void) {
+    // a flight that cuts the intro short still has to reveal the UI
+    if (this.flight) this.introDone?.();
     this.controls.enabled = false;
     this.flight = {
       from: this.camera.position.clone(),
