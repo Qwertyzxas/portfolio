@@ -25,7 +25,6 @@ function glowTexture(stops: [number, string][]) {
   return texture;
 }
 
-/** The star in the middle — clicking it opens the "about me" panel. */
 export class Sun {
   static readonly RADIUS = 7;
 

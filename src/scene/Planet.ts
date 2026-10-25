@@ -25,13 +25,9 @@ interface Moon {
   speed: number;
 }
 
-/** A project rendered as a planet: orbit line, procedural surface, atmosphere, optional rings and moons. */
 export class Planet {
-  /** Inclined orbital plane, attached to the scene */
   readonly orbitPlane = new Group();
-  /** Moves along the orbit */
   readonly body = new Group();
-  /** Pickable sphere */
   readonly mesh: Mesh;
   readonly label: CSS2DObject;
 
@@ -60,7 +56,6 @@ export class Planet {
     this.orbitPlane.rotation.set(Math.sin(index * 7.1) * 0.06, 0, Math.cos(index * 3.3) * 0.05);
     this.orbitPlane.add(this.body);
 
-    // orbit line
     const points: Vector3[] = [];
     for (let i = 0; i < 256; i++) {
       const a = (i / 256) * Math.PI * 2;
@@ -74,7 +69,6 @@ export class Planet {
     });
     this.orbitPlane.add(new LineLoop(new BufferGeometry().setFromPoints(points), this.orbitMaterial));
 
-    // surface
     this.tilt.rotation.z = 0.15 + Math.sin(index * 5.7) * 0.25;
     this.body.add(this.tilt);
 
@@ -143,7 +137,6 @@ export class Planet {
       this.moons.push({ pivot, speed: 0.6 - i * 0.18 });
     }
 
-    // HTML label floating above the planet
     const element = document.createElement('button');
     element.type = 'button';
     element.className = project.status === 'wip' ? 'planet-label planet-label--wip' : 'planet-label';
@@ -188,7 +181,6 @@ export class Planet {
     this.surface.uniforms.uTime.value = elapsed;
     this.surface.uniforms.uHover.value = this.hover;
     this.atmosphere.uniforms.uHover.value = this.hover;
-    // up close the orbit line would slice straight through the planet, so it fades out while focused
     this.orbitMaterial.opacity = this.focused ? 0.04 : 0.12 + this.hover * 0.4;
 
     for (const moon of this.moons) moon.pivot.rotation.y += dt * moon.speed * (0.3 + timeScale * 0.7);

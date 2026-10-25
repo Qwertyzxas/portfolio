@@ -103,7 +103,6 @@ export class Universe {
     this.controls.autoRotateSpeed = reducedMotion ? 0 : 0.25;
     this.controls.enabled = false;
 
-    // scene graph
     this.background = new Background(lowPower ? 2500 : 7000, pixelRatio);
     this.scene.add(this.background.group);
     this.scene.add(this.sun.group);
@@ -121,13 +120,11 @@ export class Universe {
     this.pickables.push(this.sun.mesh);
     this.sun.group.add(this.createSunLabel());
 
-    // post-processing
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     this.composer.addPass(new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 0.95, 0.65, 0.82));
     this.composer.addPass(new OutputPass());
 
-    // HTML labels overlay
     this.labels.setSize(window.innerWidth, window.innerHeight);
     this.labels.domElement.className = 'labels-layer';
     document.body.appendChild(this.labels.domElement);
@@ -135,7 +132,6 @@ export class Universe {
     this.bindEvents();
   }
 
-  /** Starts rendering and plays the fly-in from deep space. */
   start(onIntroDone?: () => void) {
     this.camera.lookAt(0, 0, 0);
     this.renderer.setAnimationLoop(this.tick);
@@ -165,7 +161,6 @@ export class Universe {
     this.flyTo(
       (pos, target) => {
         planet.getWorldPosition(target);
-        // approach from the sun-facing side, slightly rotated, so the terminator is visible
         const distance = radius * 4.2 + 4;
         pos.copy(target).setY(0).normalize().negate().applyAxisAngle(UP, 0.75).multiplyScalar(distance);
         pos.y += distance * 0.3;
@@ -204,7 +199,6 @@ export class Universe {
     this.timeScaleTarget = 1;
     this.flyTo(
       (pos, target) => {
-        // keep the current viewing angle around the system instead of snapping to a fixed spot
         const angle = Math.atan2(this.camera.position.x, this.camera.position.z);
         pos.set(Math.sin(angle) * HOME.z, HOME.y, Math.cos(angle) * HOME.z);
         target.set(0, 0, 0);
@@ -218,7 +212,6 @@ export class Universe {
     );
   }
 
-  /** Cycles through planets; direction is +1 / -1. */
   step(direction: number) {
     const current = this.focus?.kind === 'planet' ? this.focus.planet.index : direction > 0 ? -1 : 0;
     const next = (current + direction + this.planets.length) % this.planets.length;
@@ -229,7 +222,6 @@ export class Universe {
     return this.planets.find((p) => p.project.id === id);
   }
 
-  /** Shifts the rendered image (in CSS pixels) so a side panel does not cover the focused object. */
   setViewShift(x: number, y: number) {
     this.viewShiftTarget.set(x, y);
   }
@@ -248,7 +240,6 @@ export class Universe {
   }
 
   private flyTo(destination: Flight['destination'], duration: number, onDone?: () => void) {
-    // a flight that cuts the intro short still has to reveal the UI
     if (this.flight) this.introDone?.();
     this.controls.enabled = false;
     this.flight = {
@@ -267,7 +258,6 @@ export class Universe {
       flight.elapsed += dt;
       const t = Math.min(flight.elapsed / flight.duration, 1);
       const e = easeInOutCubic(t);
-      // destination is re-evaluated each frame because planets keep moving
       flight.destination(this.tmp, this.tmp2);
       this.camera.position.lerpVectors(flight.from, this.tmp, e);
       this.controls.target.lerpVectors(flight.fromTarget, this.tmp2, e);
@@ -332,7 +322,6 @@ export class Universe {
     element.addEventListener('pointerenter', () => this.sun.setHover(true));
     element.addEventListener('pointerleave', () => this.sun.setHover(false));
     const label = new CSS2DObject(element);
-    // below the star: above it the label collides with the innermost planet's label
     label.position.set(0, -Sun.RADIUS - 3, 0);
     return label;
   }
@@ -363,7 +352,6 @@ export class Universe {
     canvas.addEventListener('pointerleave', () => this.setHovered(null));
     canvas.addEventListener('pointerdown', (event) => this.pointerDown.set(event.clientX, event.clientY));
     canvas.addEventListener('pointerup', (event) => {
-      // treat as a click only when the pointer barely moved (otherwise it was a drag-rotate)
       if (this.pointerDown.distanceTo(new Vector2(event.clientX, event.clientY)) > 6 || this.flight) return;
       const target = this.pick(event);
       if (target instanceof Planet) this.focusPlanet(target);
@@ -371,7 +359,6 @@ export class Universe {
       else this.overview();
     });
 
-    // the user grabbed the camera — stop the idle rotation until the next overview
     this.controls.addEventListener('start', () => {
       if (!this.focus) this.controls.autoRotate = false;
     });

@@ -1,5 +1,5 @@
 // 3D simplex noise (Ashima Arts / Stefan Gustavson, MIT) + fractal Brownian motion.
-export const noise = /* glsl */ `
+export const noise = `
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
@@ -77,7 +77,7 @@ float fbm(vec3 p) {
 }
 `;
 
-const surfaceVertex = /* glsl */ `
+const surfaceVertex = `
 varying vec3 vObjPos;
 varying vec3 vWorldPos;
 varying vec3 vNormalW;
@@ -93,7 +93,7 @@ void main() {
 
 export const planetShader = {
   vertex: surfaceVertex,
-  fragment: /* glsl */ `
+  fragment: `
 uniform vec3 uColor;
 uniform vec3 uAccent;
 uniform vec3 uAtmosphere;
@@ -115,7 +115,6 @@ void main() {
   vec3 glow = vec3(0.0);
 
   if (uType < 0.5) {
-    // rocky: continents, oceans, polar caps
     float n = fbm(p * 1.4);
     float land = smoothstep(-0.02, 0.06, n);
     vec3 ocean = uAccent * (0.65 + 0.35 * fbm(p * 4.0));
@@ -126,7 +125,6 @@ void main() {
     float poles = smoothstep(0.78, 0.92, abs(dir.y) + n * 0.12);
     base = mix(base, vec3(0.94, 0.97, 1.0), poles);
   } else if (uType < 1.5) {
-    // gas giant: turbulent bands
     float turb = fbm(p * vec3(1.0, 3.0, 1.0) + vec3(uTime * 0.03, 0.0, 0.0));
     float bands = sin(dir.y * 16.0 + turb * 3.5) * 0.5 + 0.5;
     base = mix(uColor, uAccent, bands);
@@ -134,13 +132,11 @@ void main() {
     float storm = smoothstep(0.32, 0.0, length(dir - normalize(vec3(0.6, -0.25, 0.75))));
     base = mix(base, uAccent * 1.4, storm * 0.7);
   } else if (uType < 2.5) {
-    // ice: bright plains with deep cracks
     float n = fbm(p * 2.0);
     float cracks = 1.0 - smoothstep(0.0, 0.045, abs(snoise(p * 3.0)));
     base = mix(uColor, vec3(0.95, 0.98, 1.0), n * 0.5 + 0.5);
     base = mix(base, uAccent, cracks * 0.85);
   } else {
-    // lava: dark crust with glowing rivers
     float n = fbm(p * 1.8 + vec3(0.0, uTime * 0.02, 0.0));
     float cracks = 1.0 - smoothstep(0.0, 0.09, abs(n));
     base = mix(uAccent * 0.6, uAccent * 1.2, fbm(p * 5.0) * 0.5 + 0.5);
@@ -149,7 +145,7 @@ void main() {
   }
 
   vec3 N = normalize(vNormalW);
-  vec3 L = normalize(-vWorldPos); // the sun sits at the origin
+  vec3 L = normalize(-vWorldPos);
   vec3 V = normalize(cameraPosition - vWorldPos);
 
   float light = smoothstep(-0.2, 0.7, dot(N, L));
@@ -165,7 +161,7 @@ void main() {
 
 export const atmosphereShader = {
   vertex: surfaceVertex,
-  fragment: /* glsl */ `
+  fragment: `
 uniform vec3 uColor;
 uniform float uHover;
 
@@ -177,7 +173,6 @@ void main() {
   vec3 V = normalize(cameraPosition - vWorldPos);
   vec3 L = normalize(-vWorldPos);
 
-  // rendered with BackSide: strongest near the planet, fading to zero at the outer edge
   float intensity = pow(clamp(-dot(N, V), 0.0, 1.0), 2.2);
   float lit = smoothstep(-0.5, 0.6, dot(-N, L));
   float alpha = intensity * (0.35 + lit * 0.9) * (1.0 + uHover * 1.2);
@@ -189,7 +184,7 @@ void main() {
 
 export const sunShader = {
   vertex: surfaceVertex,
-  fragment: /* glsl */ `
+  fragment: `
 uniform float uTime;
 
 varying vec3 vObjPos;
@@ -214,7 +209,6 @@ void main() {
   float rim = pow(1.0 - max(dot(N, V), 0.0), 2.0);
   color += vec3(1.0, 0.55, 0.15) * rim * 1.2;
 
-  // glowing from afar, but dimmer up close so the granulation stays readable
   float boost = mix(0.75, 1.3, smoothstep(25.0, 140.0, length(cameraPosition)));
   gl_FragColor = vec4(color * boost, 1.0);
 }
@@ -222,7 +216,7 @@ void main() {
 };
 
 export const ringShader = {
-  vertex: /* glsl */ `
+  vertex: `
 varying vec3 vObjPos;
 varying vec3 vWorldPos;
 
@@ -233,7 +227,7 @@ void main() {
   gl_Position = projectionMatrix * viewMatrix * worldPos;
 }
 `,
-  fragment: /* glsl */ `
+  fragment: `
 uniform vec3 uColor;
 uniform vec3 uAccent;
 uniform float uInner;
@@ -254,7 +248,6 @@ void main() {
   float edge = smoothstep(0.0, 0.06, r) * (1.0 - smoothstep(0.92, 1.0, r));
   float alpha = bands * edge * (1.0 - gap * 0.9) * 0.85;
 
-  // planet shadow: is this point hidden from the sun (at the origin) by the planet sphere?
   vec3 toSun = normalize(-vWorldPos);
   vec3 toPlanet = uPlanetPos - vWorldPos;
   float along = dot(toPlanet, toSun);
@@ -268,7 +261,7 @@ void main() {
 };
 
 export const starShader = {
-  vertex: /* glsl */ `
+  vertex: `
 attribute float aSize;
 attribute float aPhase;
 attribute vec3 aColor;
@@ -287,7 +280,7 @@ void main() {
   gl_PointSize = aSize * uPixelRatio * (0.8 + vTwinkle * 0.4);
 }
 `,
-  fragment: /* glsl */ `
+  fragment: `
 varying vec3 vColor;
 varying float vTwinkle;
 
@@ -300,7 +293,7 @@ void main() {
 };
 
 export const nebulaShader = {
-  vertex: /* glsl */ `
+  vertex: `
 varying vec3 vDir;
 
 void main() {
@@ -308,7 +301,7 @@ void main() {
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `,
-  fragment: /* glsl */ `
+  fragment: `
 varying vec3 vDir;
 
 ${noise}

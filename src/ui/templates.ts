@@ -103,7 +103,6 @@ export function projectsMenu() {
     .join('');
 }
 
-/** Plain list shown when WebGL is unavailable. */
 export function fallbackView() {
   return `
     <div class="fallback">

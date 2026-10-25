@@ -34,7 +34,6 @@ body {
   overflow: hidden;
 }
 
-/* cinematic vignette */
 body::after {
   content: '';
   position: fixed;
@@ -74,7 +73,6 @@ a {
   outline: none;
 }
 
-/* ── planet labels (CSS2DRenderer) ─────────────────────────── */
 .labels-layer {
   position: fixed;
   top: 0;
@@ -147,7 +145,6 @@ body:not(.is-ready) .labels-layer {
   pointer-events: none;
 }
 
-/* ── HUD ───────────────────────────────────────────────────── */
 .hud {
   position: fixed;
   left: 0;
@@ -288,7 +285,6 @@ body.is-ready:not(.has-panel) .hint {
   transform: none;
 }
 
-/* ── projects menu ─────────────────────────────────────────── */
 .projects-menu {
   position: fixed;
   z-index: 6;
@@ -383,7 +379,6 @@ body.is-ready:not(.has-panel) .hint {
   color: var(--muted);
 }
 
-/* ── side panel ────────────────────────────────────────────── */
 .panel {
   position: fixed;
   z-index: 4;
@@ -411,7 +406,6 @@ body.is-ready:not(.has-panel) .hint {
   transition-delay: 0s;
 }
 
-/* accent glow along the top edge */
 .panel::before {
   content: '';
   position: absolute;
@@ -637,7 +631,6 @@ body.is-ready:not(.has-panel) .hint {
   font-weight: 500;
 }
 
-/* about */
 .about__head {
   display: flex;
   align-items: center;
@@ -671,7 +664,6 @@ body.is-ready:not(.has-panel) .hint {
   color: #2a0d00;
 }
 
-/* contacts */
 .contacts {
   display: grid;
   gap: 10px;
@@ -742,7 +734,6 @@ body.is-ready:not(.has-panel) .hint {
   color: var(--muted);
 }
 
-/* ── loader ────────────────────────────────────────────────── */
 .loader {
   position: fixed;
   inset: 0;
@@ -800,7 +791,6 @@ body.is-ready:not(.has-panel) .hint {
   color: var(--muted);
 }
 
-/* ── fallback without WebGL ────────────────────────────────── */
 .no-webgl {
   overflow: auto;
 }
@@ -856,7 +846,6 @@ body.is-ready:not(.has-panel) .hint {
   background: var(--bg);
 }
 
-/* ── animations ────────────────────────────────────────────── */
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -870,7 +859,6 @@ body.is-ready:not(.has-panel) .hint {
   }
 }
 
-/* ── mobile ────────────────────────────────────────────────── */
 @media (max-width: 760px) {
   :root {
     --gutter: 12px;

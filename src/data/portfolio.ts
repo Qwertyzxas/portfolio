@@ -1,35 +1,22 @@
-// ─────────────────────────────────────────────────────────────
-//  Всё содержимое сайта живёт здесь. Меняйте тексты, ссылки и
-//  внешний вид планет — сцена перестроится автоматически.
-// ─────────────────────────────────────────────────────────────
-
 export type PlanetType = 'rocky' | 'gas' | 'ice' | 'lava';
 
 export interface Project {
-  /** Используется в адресе: site.com/#id */
   id: string;
   name: string;
   tagline: string;
   description: string;
   tech: string[];
   year: number;
-  /** 'wip' — проект в разработке: без ссылок, с пометкой «скоро». По умолчанию 'live' */
   status?: 'live' | 'wip';
   repo?: string;
   demo?: string;
   planet: {
     type: PlanetType;
-    /** Основной цвет поверхности */
     color: string;
-    /** Второй цвет (океаны, полосы, трещины) */
     accent: string;
-    /** Цвет свечения атмосферы */
     atmosphere: string;
-    /** Радиус планеты */
     size: number;
-    /** Радиус орбиты */
     orbit: number;
-    /** Скорость движения по орбите (1 — обычная) */
     speed: number;
     rings?: boolean;
     moons?: number;
@@ -179,5 +166,4 @@ export const projects: Project[] = [
   },
 ];
 
-/** Пояс астероидов между внутренними и внешними планетами */
 export const asteroidBelt = { inner: 54, outer: 59 };

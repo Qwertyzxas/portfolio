@@ -58,7 +58,6 @@ function boot() {
   }
 
   function updateViewShift() {
-    // keep the focused object visible next to the panel instead of under it
     if (!view || !universe.focus) universe.setViewShift(0, 0);
     else if (isNarrow()) universe.setViewShift(0, panel.offsetHeight / 2);
     else universe.setViewShift(panel.offsetWidth / 2 + 12, 0);
@@ -71,7 +70,6 @@ function boot() {
     panel.style.setProperty('--accent', accent);
     panel.classList.add('is-open');
     panel.setAttribute('aria-hidden', 'false');
-    // restart the staggered entrance animation
     panelContent.classList.remove('is-entering');
     void panelContent.offsetWidth;
     panelContent.classList.add('is-entering');
@@ -135,7 +133,6 @@ function boot() {
     }
   }
 
-  // ── navigation ───────────────────────────────────────────
   menu.querySelector('ul')!.innerHTML = projectsMenu();
   menu.addEventListener('click', (event) => {
     const item = (event.target as HTMLElement).closest<HTMLElement>('[data-project]');
@@ -187,11 +184,9 @@ function boot() {
 
   window.addEventListener('resize', updateViewShift);
 
-  // ── launch ───────────────────────────────────────────────
   universe.start(() => document.body.classList.add('is-ready'));
   openFromHash();
 
-  // the first frame compiles every shader; hide the loader once it has been drawn
   requestAnimationFrame(() =>
     requestAnimationFrame(() => {
       loader.classList.add('is-hidden');
